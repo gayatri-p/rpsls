@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css?family=Bangers');
+
+$background: radial-gradient(#353535, #252525, #151515);
+$font: 'Bangers', sans-serif;
+$sheldon: url(https://gist.githubusercontent.com/gayatri-p/a892f9f8988425aff1798866ad995519/raw/35ef88f84ac477b8ce3d2296fb03f4edb0e7791a/sheldon.jpg);
+
+// $raj: url(https://gist.githubusercontent.com/gayatri-p/a892f9f8988425aff1798866ad995519/raw/ad19fbcf5dcb0c1aefd0b488045bca1e8bc2e801/raj.jpg);
+
+%shadow {
+  box-shadow: 2px 5px 20px #0009;
+}
+
+@mixin absolute($top, $left, $bottom, $right, $tr-x, $tr-y) {
+  position: absolute;
+  top: $top;
+  left: $left;
+  bottom: $bottom;
+  right: $right;
+  transform: translate($tr-x, $tr-y);
+}
+
+@mixin flexbox($align, $justify) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+}
+
+body {
+  height:100vh;
+  text-align: center;
+  background: $background;
+  font-family: $font;
+  @include flexbox(center, space-around);
+  flex-direction: column;
+  color: #fff;
+  overflow: hidden;
+}
+
+h1 {
+  font-size: 3.5rem;
+  font-weight: 400;
+  margin: 30px 0 0 0;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 400;
+  margin: 0 0 20px 0;
+}
+
+// MESSAGE
+.message {
+  font-size: 2rem;
+}
+
+// THE PLAYGROUND
+.board {
+  @include flexbox(unset, center);
+  flex-wrap: wrap;
+  max-width: 710px;
+  margin: 70px 0;
+}
+
+.choice {
+  @extend %shadow;
+  height: 100px;
+  width:  100px;
+  border: 7px solid #fff;
+  @include flexbox(center, center);
+  border-radius: 50%;
+  margin: 5px 10px;
+  cursor: pointer;
+  transition: background .15s ease,
+              box-shadow .2s ease-in,
+              transform .3s ease-out;
+  user-select: none;
+  
+  img {
+    width: 75%;
+  }
+  
+  &:hover {
+    background: #121417;
+  }
+}
+
+.green-glow,
+.red-glow,
+.gray-glow {
+  transition: box-shadow .1s ease-out,
+}
+
+.green-glow {
+  box-shadow: 0 0 50px #0f0;
+}
+
+.red-glow {
+  box-shadow: 0 0 50px #f00;
+}
+
+.gray-glow {
+  box-shadow: 0 0 50px #999;
+}
+
+// SCORE BOARD
+.scoreboard {
+  @include flexbox(null, space-between);
+  width: 190px;
+  height: 50px;
+  position:relative;
+  color: #fff;
+  transform: scale(1.8);
+  
+  &::after {
+    content: 'vs';
+    @include absolute(50%, 50%, null, null, -50%, -50%);
+    font-size:150%;
+  }
+}
+
+.score {
+  @extend %shadow;
+  width: 40%;
+  height: 100%;
+  font-size: 1rem;
+  position:relative;
+  
+  &.user {
+    // background-image: $sheldon;
+    background-size:100% !important;
+    background-repeat:no-repeat;
+    background-position: 20% 30% !important;
+  }
+  &.sheldon {
+    background-image:$sheldon;
+    background-size:100% !important;
+    background-repeat:no-repeat;
+    background-position: 20% 30% !important;
+  }
+}
+
+.name {
+  @include absolute(102%, 50%, null, null, -50%, 0%);
+}
+
+#my-score, #sheldon-score {
+  @include absolute(135%, 50%, null, null, -50%, 0%);
+}
+
+
+
+
+#drat {
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width: 50%;
+  max-width: 400px;
+  display:none;
+}
+
+#yay {
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  width: 600px;
+  display:none;
+}
+
+.rules-prompt {
+  position:fixed;
+  bottom:30px;
+  right: 30px;
+  font-size: 2rem;
+  transition: .2s ease-in-out;
+  cursor:pointer;
+  color: #aaa;
+  text-decoration:none;
+  
+  &:hover {
+    transform: scale(1.2)
+  }
+}
+
+$char-size: 150px;
+.characters {
+  @include absolute(0, 0, null, null, null, null);
+  height:100%;
+  width:100%;
+  // max-width: 750px;
+  background: #191919;
+  @include flexbox(center, center);
+  flex-wrap: wrap;
+  
+  h3 {
+    font-size: 2.5rem;
+    width:100%;
+    flex: 0 0 100%;
+    margin-bottom: -50px;
+  }
+  
+  .player {
+    border: 0px solid #fff;
+    overflow:show;
+    height: $char-size;      
+    width: $char-size;
+    margin: 10px 20px;
+    @include flexbox(center, space-between);
+    flex-direction: column;
+    
+    img {
+      border-radius: 50%;
+      height: $char-size;      
+    }
+  }
+  .caption {
+    margin-top: 5px;
+    color: #fff;
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width:700px) {
+  body {
+    height: auto;
+    overflow-y: scroll;
+  }
+  .board {
+    margin: 100px 0 50px 0;
+  }
+}
